@@ -8,11 +8,11 @@ on:
 
 jobs:
   build-kernel:
-    runs-on: ubuntu-20.04  # ✅ 这里改为 Ubuntu 20.04
+    runs-on: ubuntu-20.04
 
     env:
       ARCH: arm64
-      KERNEL_VERSION: "v6.15"  # 也可以写 main 或 v6.x
+      KERNEL_VERSION: "main"
 
     steps:
       - name: Checkout this repo
@@ -24,6 +24,27 @@ jobs:
           sudo apt-get install -y \
             build-essential openssl pkg-config libssl-dev libncurses-dev minizip libelf-dev flex bison libc6-dev libidn11-dev rsync bc lz4 debootstrap git \
             gcc-aarch64-linux-gnu dpkg-dev dpkg qemu-user-static \
-            debhelper-compat libdw-dev libssl-dev wget curl
-          
-          git clone --depth=1 -b 6.15/main https://proxy.lukeu.space/github.com/msm8953-mainline/linux.git kernel
+            debhelper-compat libdw-dev ccache wget curl
+
+      - name: Restore ccache
+        uses: actions/cache@v3
+        with:
+          path: ~/.ccache
+          key: ccache-${{ runner.os }}-${{ env.KERNEL_VERSION }}-${{ env.ARCH }}
+          restore-keys: |
+            ccache-${{ runner.os }}-${{ env.ARCH }}
+
+      - name: Clone kernel source
+        run: |
+          git clone --depth=1 --branch ${KERNEL_VERSION} https://github.com/msm8953-mainline/linux.git kernel
+          cd kernel
+
+      - name: Configure kernel
+        run: |
+          cd kernel
+          make ARCH=${ARCH} CROSS_COMPILE="ccache aarch64-linux-gnu-" defconfig
+
+      - name: Build kernel
+        run: |
+          cd kernel
+          make -j$(nproc) ARCH=${ARCH} CROSS_COMPILE="ccache aarch64-linux-gnu-"
