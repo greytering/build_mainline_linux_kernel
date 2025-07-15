@@ -18,7 +18,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -35,3 +35,6 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
           uname -a
+          apt install build-essential openssl pkg-config libssl-dev libncurses-dev minizip libelf-dev flex bison libc6-dev libidn11-dev rsync bc lz4 debootstrap git curl -y
+          apt install gcc-aarch64-linux-gnu dpkg-dev dpkg qemu-user-static -y
+          apt install debhelper-compat libdw-dev libssl-dev -y
