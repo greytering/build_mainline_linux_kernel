@@ -4,6 +4,7 @@ name: CI
 
 # Controls when the workflow will run
 on:
+  workflow_dispatch:  # 手动触发
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
@@ -35,6 +36,11 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
           uname -a
-          sudo apt install build-essential openssl pkg-config libssl-dev libncurses-dev minizip libelf-dev flex bison libc6-dev libidn11-dev rsync bc lz4 debootstrap git curl -y
-          sudo apt install gcc-aarch64-linux-gnu dpkg-dev dpkg qemu-user-static -y
-          sudo apt install debhelper-compat libdw-dev libssl-dev -y
+          pwd
+          sudo apt install neofetch wget -y
+          wget https://gitlab.postmarketos.org/postmarketOS/pmaports/-/raw/master/device/community/linux-postmarketos-qcom-msm8953/config-postmarketos-qcom-msm8953.aarch64
+          mv config-postmarketos-qcom-msm8953.aarch64 .config
+          ls -la
+          # sudo apt install build-essential openssl pkg-config libssl-dev libncurses-dev minizip libelf-dev flex bison libc6-dev libidn11-dev rsync bc lz4 debootstrap git curl -y
+          # sudo apt install gcc-aarch64-linux-gnu dpkg-dev dpkg qemu-user-static -y
+          # sudo apt install debhelper-compat libdw-dev libssl-dev -y
