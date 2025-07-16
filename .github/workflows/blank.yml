@@ -46,9 +46,8 @@
             # sudo apt install gcc-aarch64-linux-gnu dpkg-dev dpkg qemu-user-static -y
             # sudo apt install debhelper-compat libdw-dev libssl-dev -y
             
-        - name: Upload Files
+        - name: Upload .config file
           uses: actions/upload-artifact@v4
           with:
-            name: Files
-            path: |
-              ${{ github.workspace }}/.config
+            name: kernel-config
+            path: ${{ github.workspace }}/.config
