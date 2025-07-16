@@ -51,4 +51,4 @@
           with:
             name: Files
             path: |
-              .config
+              ${{ github.workspace }}/.config
