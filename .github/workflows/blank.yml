@@ -46,7 +46,10 @@
             
         - name: Upload Files
           uses: actions/upload-artifact@v4
+          run: |
+            pwd
+            ls
           with:
             name: Files
             path: |
-              .config
+              ./.config
